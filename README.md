@@ -1,3 +1,13 @@
+# bike-sharing-data-analysis
+
+## Preview Dashboard
+
+Berikut adalah tampilan dari dashboard yang telah dibuat:
+
+![Dashboard Screenshot](preview.png)
+![Dashboard Screenshot](preview2.png)
+
+
 ## Deskripsi Proyek
 
 Proyek ini bertujuan untuk menganalisis data penyewaan sepeda menggunakan **Bike Sharing Dataset**. Analisis ini dilakukan untuk menjawab pertanyaan bisnis berikut:
