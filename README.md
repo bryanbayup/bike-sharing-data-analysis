@@ -18,7 +18,8 @@ Hasil analisis kemudian disajikan dalam bentuk dashboard interaktif menggunakan 
 - Pastikan Anda telah menginstal semua library yang dibutuhkan. Anda dapat menginstalnya dengan perintah:
 
   ```bash
+  ##install library
   pip install -r requirements.txt
-
-  ```bash
+  
+  #menjalankan dashboard dengan streamlit
   streamlit run dashboard.py
