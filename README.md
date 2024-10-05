@@ -19,3 +19,6 @@ Hasil analisis kemudian disajikan dalam bentuk dashboard interaktif menggunakan 
 
   ```bash
   pip install -r requirements.txt
+
+  ```bash
+  streamlit run dashboard.py
