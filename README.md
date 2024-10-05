@@ -23,3 +23,4 @@ Hasil analisis kemudian disajikan dalam bentuk dashboard interaktif menggunakan 
   
   #menjalankan dashboard dengan streamlit
   streamlit run dashboard.py
+  #untuk mengakses dashborad buka halaman http://localhost:8501 di browser
