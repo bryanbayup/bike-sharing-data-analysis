@@ -39,5 +39,5 @@ submission/
 │   ├── day.csv
 │   └── hour.csv
 ├── requirements.txt
-└── url.txt (jika dashboard di-hosting)
+└── url.txt(url hosting streamlit)
 
