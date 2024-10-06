@@ -17,8 +17,8 @@ day_data_path = os.path.join(script_dir, '..', 'data', 'day.csv')
 hour_data_path = os.path.join(script_dir, '..', 'data', 'hour.csv')
 
 # Membaca dataset
-day_df = pd.read_csv('../data/day.csv')
-hour_df = pd.read_csv('../data/hour.csv')
+day_df = pd.read_csv(day_data_path)
+hour_df = pd.read_csv(hour_data_path)
 
 # Data Preprocessing
 
