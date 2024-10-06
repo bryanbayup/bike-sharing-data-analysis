@@ -1,5 +1,6 @@
 # dashboard.py
 
+import os
 import streamlit as st
 import pandas as pd
 import seaborn as sns
@@ -10,6 +11,10 @@ sns.set_style('darkgrid')
 
 # Judul Dashboard
 st.title("Dashboard Analisis Data Penyewaan Sepeda")
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+day_data_path = os.path.join(script_dir, '..', 'data', 'day.csv')
+hour_data_path = os.path.join(script_dir, '..', 'data', 'hour.csv')
 
 # Membaca dataset
 day_df = pd.read_csv('../data/day.csv')
