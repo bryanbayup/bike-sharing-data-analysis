@@ -1,33 +1,43 @@
-# bike-sharing-data-analysis
-
-## Preview Dashboard
-
-Berikut adalah tampilan dari dashboard yang telah dibuat:
-
-![Dashboard Screenshot](preview.png)
-![Dashboard Screenshot](preview2.png)
-
+# Proyek Analisis Data: Bike Sharing Dataset
 
 ## Deskripsi Proyek
 
-Proyek ini bertujuan untuk menganalisis data penyewaan sepeda menggunakan **Bike Sharing Dataset**. Analisis ini dilakukan untuk menjawab pertanyaan bisnis berikut:
+Proyek ini bertujuan untuk menganalisis **Bike Sharing Dataset** untuk menjawab pertanyaan bisnis berikut:
 
 1. **Pada jam berapa penyewaan sepeda paling banyak dan paling sedikit terjadi?**
 2. **Pada musim apa penyewaan sepeda paling banyak terjadi?**
 
-Hasil analisis kemudian disajikan dalam bentuk dashboard interaktif menggunakan **Streamlit**, yang memungkinkan pengguna untuk berinteraksi dan memahami data dengan lebih baik.
+Analisis dilakukan dalam Jupyter Notebook `Proyek_Analisis_Data.ipynb`, dan hasilnya disajikan dalam bentuk dashboard interaktif menggunakan **Streamlit**.
 
-## Cara Menjalankan Dashboard
+---
 
-### **Prasyarat**
+## Setup Environment - Anaconda
 
-- Python 3.x telah terinstal di komputer Anda.
-- Pastikan Anda telah menginstal semua library yang dibutuhkan. Anda dapat menginstalnya dengan perintah:
+```bash
+conda create --name main-ds python=3.9
+conda activate main-ds
+pip install -r requirements.txt
 
-  ```bash
-  ##install library
-  pip install -r requirements.txt
-  
-  #menjalankan dashboard dengan streamlit
-  streamlit run dashboard.py
-  #untuk mengakses dashborad buka halaman http://localhost:8501 di browser
+## Setup Environment - Shell/Terminal
+
+mkdir proyek_analisis_data
+cd proyek_analisis_data
+pipenv install
+pipenv shell
+pip install -r requirements.txt
+
+## Menjalankan Aplikasi Streamlit
+
+streamlit run dashboard/dashboard.py
+
+submission/
+├── Proyek_Analisis_Data.ipynb
+├── README.md
+├── dashboard/
+│   └── dashboard.py
+├── data/
+│   ├── day.csv
+│   └── hour.csv
+├── requirements.txt
+└── url.txt (jika dashboard di-hosting)
+
