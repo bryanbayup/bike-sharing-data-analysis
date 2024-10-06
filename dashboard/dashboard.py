@@ -1,30 +1,25 @@
-# dashboard/dashboard.py
+# dashboard.py
 
 import streamlit as st
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Mengatur tema seaborn
-sns.set_theme(style="darkgrid")
+# Mengatur style untuk seaborn
+sns.set_style('darkgrid')
 
 # Judul Dashboard
-st.title("Bike Sharing Data Analysis Dashboard")
+st.title("Dashboard Analisis Data Penyewaan Sepeda")
 
 # Membaca dataset
-day_df = pd.read_csv('../data/day.csv')
-hour_df = pd.read_csv('../data/hour.csv')
+day_df = pd.read_csv('data/day.csv')
+hour_df = pd.read_csv('data/hour.csv')
 
 # Data Preprocessing
+
 # Mengubah tipe data 'dteday' menjadi datetime
 day_df['dteday'] = pd.to_datetime(day_df['dteday'])
 hour_df['dteday'] = pd.to_datetime(hour_df['dteday'])
-
-# Mengubah tipe data beberapa kolom menjadi kategori
-category_columns = ['season', 'yr', 'mnth', 'holiday', 'weekday', 'weathersit']
-for col in category_columns:
-    day_df[col] = day_df[col].astype('category')
-    hour_df[col] = hour_df[col].astype('category')
 
 # Mengganti nama kolom untuk meningkatkan keterbacaan
 day_df.rename(columns={
@@ -46,7 +41,15 @@ hour_df.rename(columns={
     'cnt': 'total_count'
 }, inplace=True)
 
-# Mengonversi nilai kategori
+# Mengubah tipe data beberapa kolom menjadi kategori
+category_columns = ['season', 'year', 'month', 'holiday', 'day_of_week', 'weather_situation']
+for col in category_columns:
+    if col in day_df.columns:
+        day_df[col] = day_df[col].astype('category')
+    if col in hour_df.columns:
+        hour_df[col] = hour_df[col].astype('category')
+
+# Mengonversi nilai kategori untuk interpretasi yang lebih baik
 # Mapping untuk season
 season_mapping = {1: 'Spring', 2: 'Summer', 3: 'Fall', 4: 'Winter'}
 day_df['season'] = day_df['season'].map(season_mapping)
@@ -94,18 +97,22 @@ hour_df['day_type'] = hour_df['day_of_week'].apply(categorize_day)
 
 # Sidebar untuk navigasi
 st.sidebar.title("Navigasi")
-options = st.sidebar.radio('Pilih Halaman:', ['Overview', 'Hourly Analysis', 'Seasonal Analysis', 'User Type Analysis'])
+options = st.sidebar.radio('Pilih Halaman:', ['Overview', 'Analisis Penyewaan per Jam', 'Analisis Penyewaan per Musim'])
 
+# Halaman Overview
 if options == 'Overview':
     st.header("Data Overview")
-    st.write("Dataset Day:")
+    st.write("Dataset Penyewaan Harian:")
     st.dataframe(day_df.head())
-    st.write("Dataset Hour:")
+    st.write("Dataset Penyewaan per Jam:")
     st.dataframe(hour_df.head())
-    st.write("Statistik Deskriptif:")
+
+    st.subheader("Statistik Deskriptif (Dataset Harian)")
     st.write(day_df.describe())
-elif options == 'Hourly Analysis':
-    st.header("Hourly Rental Analysis")
+
+# Halaman Analisis Penyewaan per Jam
+elif options == 'Analisis Penyewaan per Jam':
+    st.header("Analisis Penyewaan Sepeda per Jam")
 
     # Menghitung total penyewaan per jam
     hourly_counts = hour_df.groupby('hour')['total_count'].sum().reset_index()
@@ -119,8 +126,18 @@ elif options == 'Hourly Analysis':
     ax.set_xlabel('Jam')
     ax.set_ylabel('Jumlah Penyewaan')
     st.pyplot(fig)
-elif options == 'Seasonal Analysis':
-    st.header("Seasonal Rental Analysis")
+
+    # Insight
+    st.subheader("Insight")
+    st.write("""
+    - **Jam Puncak Penyewaan:** Jam 17:00 memiliki jumlah penyewaan tertinggi.
+    - **Jam Terendah Penyewaan:** Jam 04:00 memiliki jumlah penyewaan terendah.
+    - **Interpretasi:** Peningkatan penyewaan pada jam 17:00 kemungkinan besar karena jam pulang kerja, sementara rendahnya penyewaan pada jam 04:00 disebabkan oleh aktivitas yang minim pada dini hari.
+    """)
+
+# Halaman Analisis Penyewaan per Musim
+elif options == 'Analisis Penyewaan per Musim':
+    st.header("Analisis Penyewaan Sepeda per Musim")
 
     # Menghitung total penyewaan per musim
     season_counts = day_df.groupby('season')['total_count'].sum().reset_index()
@@ -132,31 +149,12 @@ elif options == 'Seasonal Analysis':
     ax.set_xlabel('Musim')
     ax.set_ylabel('Jumlah Penyewaan')
     st.pyplot(fig)
-elif options == 'User Type Analysis':
-    st.header("User Type Analysis")
 
-    # Menghitung total penyewaan oleh pengguna registered dan casual
-    total_casual = day_df['casual'].sum()
-    total_registered = day_df['registered'].sum()
+    # Insight
+    st.subheader("Insight")
+    st.write("""
+    - **Musim dengan Penyewaan Tertinggi:** Musim Fall (Gugur) memiliki jumlah penyewaan tertinggi.
+    - **Interpretasi:** Kondisi cuaca yang nyaman pada musim gugur mungkin mendorong lebih banyak orang untuk bersepeda.
+    """)
 
-    # Membuat dataframe untuk visualisasi
-    user_type_counts = pd.DataFrame({
-        'User_Type': ['Casual', 'Registered'],
-        'Total_Count': [total_casual, total_registered]
-    })
 
-    # Visualisasi perbandingan penyewaan
-    fig, ax = plt.subplots(figsize=(8,6))
-    sns.barplot(x='User_Type', y='Total_Count', data=user_type_counts, palette=['gray', 'skyblue'], ax=ax)
-    ax.set_title('Perbandingan Penyewaan antara Pengguna Casual dan Registered')
-    ax.set_xlabel('Tipe Pengguna')
-    ax.set_ylabel('Jumlah Penyewaan')
-    st.pyplot(fig)
-
-    # Menampilkan persentase
-    total_users = total_casual + total_registered
-    casual_percentage = (total_casual / total_users) * 100
-    registered_percentage = (total_registered / total_users) * 100
-
-    st.write(f"Persentase Casual Users: **{casual_percentage:.1f}%**")
-    st.write(f"Persentase Registered Users: **{registered_percentage:.1f}%**")
