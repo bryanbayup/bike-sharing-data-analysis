@@ -9,6 +9,7 @@ Proyek ini bertujuan untuk menganalisis **Bike Sharing Dataset** untuk menjawab 
 
 Analisis dilakukan dalam Jupyter Notebook `Proyek_Analisis_Data.ipynb`, dan hasilnya disajikan dalam bentuk dashboard interaktif menggunakan **Streamlit**.
 
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 ---
 
 ## Setup Environment - Anaconda
